@@ -10,21 +10,30 @@ def build_merkle_root(hashes: list[str]) -> str:
         return sha256_hash("EMPTY_ELECTION")
 
     level = sorted(hashes)
+
     while len(level) > 1:
         if len(level) % 2 == 1:
             level.append(level[-1])
-        level = [sha256_hash(level[i] + level[i + 1]) for i in range(0, len(level), 2)]
+
+        level = [
+            sha256_hash(level[i] + level[i + 1])
+            for i in range(0, len(level), 2)
+        ]
+
     return level[0]
 
 
 def compute_and_store_election_merkle_root(election_id: int) -> str:
     timestamp = datetime.now(timezone.utc).isoformat()
+
     with get_connection() as conn:
         rows = conn.execute(
             "SELECT vote_hash FROM votes WHERE election_id = ? ORDER BY vote_hash",
             (election_id,),
         ).fetchall()
+
         root = build_merkle_root([row["vote_hash"] for row in rows])
+
         conn.execute(
             """
             INSERT INTO merkle_roots (election_id, merkle_root, computed_at)
@@ -32,6 +41,7 @@ def compute_and_store_election_merkle_root(election_id: int) -> str:
             """,
             (election_id, root, timestamp),
         )
+
         return root
 
 
@@ -46,6 +56,7 @@ def get_latest_merkle_root(election_id: int):
             """,
             (election_id,),
         ).fetchone()
+
         return dict(row) if row else None
 
 
@@ -60,24 +71,52 @@ def get_latest_merkle_root_any():
             LIMIT 1
             """
         ).fetchone()
+
         return dict(row) if row else None
 
 
 def verify_election_merkle_root(election_id: int) -> dict:
     latest = get_latest_merkle_root(election_id)
-    if not latest:
-        return {"published": False, "valid": False, "expected_root": None, "published_root": None}
 
     with get_connection() as conn:
         rows = conn.execute(
             "SELECT vote_hash FROM votes WHERE election_id = ? ORDER BY vote_hash",
             (election_id,),
         ).fetchall()
-    expected_root = build_merkle_root([row["vote_hash"] for row in rows])
+
+    vote_hashes = [row["vote_hash"] for row in rows]
+
+    # No votes yet means system is still valid
+    if not vote_hashes:
+        return {
+            "published": False,
+            "valid": True,
+            "expected_root": None,
+            "published_root": None,
+            "message": "No votes have been cast yet.",
+        }
+
+    expected_root = build_merkle_root(vote_hashes)
+
+    # Votes exist but no published Merkle root
+    if not latest:
+        return {
+            "published": False,
+            "valid": False,
+            "expected_root": expected_root,
+            "published_root": None,
+            "message": "Votes exist but no Merkle root has been published.",
+        }
+
     return {
         "published": True,
         "valid": expected_root == latest["merkle_root"],
         "expected_root": expected_root,
         "published_root": latest["merkle_root"],
         "computed_at": latest["computed_at"],
+        "message": (
+            "Merkle root verified successfully."
+            if expected_root == latest["merkle_root"]
+            else "Merkle root mismatch detected."
+        ),
     }
