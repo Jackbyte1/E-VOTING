@@ -1,10 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const otpForm = document.getElementById("otp-form");
-    const devOtp = sessionStorage.getItem("devOtp");
-    const devOtpElement = document.getElementById("dev-otp");
-    if (devOtpElement && devOtp) {
-        devOtpElement.textContent = `Development OTP: ${devOtp}`;
-    }
+    
 
     otpForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -17,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 otp_code: form.get("otp_code"),
             });
             sessionStorage.setItem("role", result.data.role);
-            sessionStorage.removeItem("devOtp");
             window.location.href =
                 result.data.role === "admin" ? "/pages/admin.html" : "/pages/dashboard.html";
         } catch (error) {
