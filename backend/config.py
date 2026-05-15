@@ -44,13 +44,13 @@ FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:5000")
 OTP_DELIVERY_MODE = os.getenv("OTP_DELIVERY_MODE", "smtp" if IS_PRODUCTION else "console").lower()
 SMTP_HOST = os.getenv("SMTP_HOST")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USERNAME = os.getenv("m76477630@gmail.com")
-SMTP_PASSWORD = os.getenv("hvgvuvlmduenhvmf")
+SMTP_USERNAME = os.getenv("SMTP_USERNAME")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 SMTP_USE_TLS = os.getenv("SMTP_USE_TLS", "true").lower() in {"1", "true", "yes", "on"}
 SMTP_USE_SSL = os.getenv("SMTP_USE_SSL", "false").lower() in {"1", "true", "yes", "on"}
 SMTP_TIMEOUT_SECONDS = int(os.getenv("SMTP_TIMEOUT_SECONDS", "20"))
 EMAIL_FROM = os.getenv("EMAIL_FROM", SMTP_USERNAME or "")
-EMAIL_FROM_NAME = os.getenv("m76477630@gmail.com", "SecureVote")
+EMAIL_FROM_NAME = os.getenv("EMAIL_FROM", "SecureVote")
 
 if IS_PRODUCTION:
     if SECRET_KEY == "dev-session-secret-change-me":
