@@ -6,7 +6,8 @@ GENESIS_HASH = "0" * 64
 
 
 def rebuild_audit_chain():
-    """Rebuild audit hashes from existing logs."""
+    """Rebuild audit hashes using stable normalized hashing."""
+
     with get_connection() as conn:
         logs = conn.execute(
             "SELECT * FROM audit_logs ORDER BY id ASC"
@@ -15,9 +16,21 @@ def rebuild_audit_chain():
         previous_hash = GENESIS_HASH
 
         for log in logs:
-            current_hash = sha256_hash(
-                f"{log['action']}|{log['user_id']}|{log['timestamp']}|{previous_hash}|{log['merkle_root']}"
+            normalized_merkle = (
+                log["merkle_root"]
+                if log["merkle_root"] is not None
+                else "NO_MERKLE"
             )
+
+            payload = (
+                f"{log['action']}|"
+                f"{log['user_id']}|"
+                f"{log['timestamp']}|"
+                f"{previous_hash}|"
+                f"{normalized_merkle}"
+            )
+
+            current_hash = sha256_hash(payload)
 
             conn.execute(
                 """
@@ -25,7 +38,11 @@ def rebuild_audit_chain():
                 SET previous_hash = ?, current_hash = ?
                 WHERE id = ?
                 """,
-                (previous_hash, current_hash, log["id"]),
+                (
+                    previous_hash,
+                    current_hash,
+                    log["id"],
+                ),
             )
 
             previous_hash = current_hash
