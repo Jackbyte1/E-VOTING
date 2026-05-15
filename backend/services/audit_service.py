@@ -6,16 +6,26 @@ from backend.utils.db import get_connection
 GENESIS_HASH = "0" * 64
 
 
-def normalize_merkle_root(merkle_root):
-    return merkle_root if merkle_root is not None else "NO_MERKLE"
+def build_audit_hash(action, user_id, timestamp, previous_hash, merkle_root):
+    normalized_merkle = (
+        merkle_root if merkle_root is not None else "NO_MERKLE"
+    )
+
+    payload = (
+        f"{action}|"
+        f"{user_id}|"
+        f"{timestamp}|"
+        f"{previous_hash}|"
+        f"{normalized_merkle}"
+    )
+
+    return sha256_hash(payload)
 
 
 def record_audit(action: str, user_id=None, merkle_root=None) -> str:
-    """Append a tamper-evident audit log using stable hash chaining."""
+    """Append tamper-evident audit log."""
 
     timestamp = datetime.now(timezone.utc).isoformat()
-
-    normalized_merkle = normalize_merkle_root(merkle_root)
 
     with get_connection() as conn:
         last_log = conn.execute(
@@ -23,15 +33,18 @@ def record_audit(action: str, user_id=None, merkle_root=None) -> str:
         ).fetchone()
 
         previous_hash = (
-            last_log["current_hash"] if last_log else GENESIS_HASH
+            last_log["current_hash"]
+            if last_log
+            else GENESIS_HASH
         )
 
-        payload = (
-            f"{action}|{user_id}|{timestamp}|"
-            f"{previous_hash}|{normalized_merkle}"
+        current_hash = build_audit_hash(
+            action,
+            user_id,
+            timestamp,
+            previous_hash,
+            merkle_root,
         )
-
-        current_hash = sha256_hash(payload)
 
         conn.execute(
             """
@@ -51,7 +64,7 @@ def record_audit(action: str, user_id=None, merkle_root=None) -> str:
                 timestamp,
                 previous_hash,
                 current_hash,
-                normalized_merkle,
+                merkle_root if merkle_root is not None else "NO_MERKLE",
             ),
         )
 
