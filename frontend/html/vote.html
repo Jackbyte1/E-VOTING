@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vote - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="app-shell">
+        <section class="content-panel wide-panel">
+            <div class="topbar">
+                <div>
+                    <span class="eyebrow">Secure Ballot</span>
+                    <h1 class="text-3xl font-black md:text-5xl">Cast Your Vote</h1>
+                    <p class="mt-2 max-w-2xl">Choose one candidate per position. Your selections are encrypted before storage.</p>
+                </div>
+            </div>
+            <div id="student-stats" class="stats-grid"></div>
+            <div id="election-container"></div>
+            <div class="section">
+                <div class="section-title">
+                    <h2>Live Election Results</h2>
+                    <span class="status-pill">Auto-refresh</span>
+                </div>
+                <div id="live-results"></div>
+            </div>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/vote.js"></script>
+</body>
+</html>

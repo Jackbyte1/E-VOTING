@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Dashboard - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="app-shell dashboard-shell">
+        <section class="content-panel wide-panel">
+            <div class="topbar">
+                <div>
+                    <span class="eyebrow">Student Portal</span>
+                    <h1 class="text-3xl font-black md:text-5xl">Dashboard</h1>
+                    <p class="mt-2 max-w-2xl">Track active elections, turnout, and live vote progress from one compact command center.</p>
+                </div>
+                <a class="button-link" href="/pages/vote.html">Go Vote</a>
+            </div>
+            <div id="dashboard-stats" class="stats-grid"></div>
+            <div id="student-dashboard-grid" class="dashboard-two-col">
+                <section class="dashboard-column">
+                    <div class="section-title compact-title">
+                        <div>
+                            <h2 class="text-2xl font-black">Live Vote Progress</h2>
+                            <p>Compact totals by position, updated every few seconds.</p>
+                        </div>
+                        <span class="status-pill">Live</span>
+                    </div>
+                    <div id="closed-results-picker" class="archive-picker"></div>
+                    <div id="dashboard-results" class="compact-progress-list"></div>
+                </section>
+                <aside class="dashboard-column">
+                    <div id="dashboard-election"></div>
+                    <div id="dashboard-breakdown"></div>
+                </aside>
+            </div>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

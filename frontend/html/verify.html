@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verify Vote - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="app-shell">
+        <section class="auth-panel wide mx-auto max-w-2xl">
+            <div class="text-center">
+                <div class="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-emerald-50 text-3xl">🔎</div>
+                <h1 class="mt-5 text-3xl font-black md:text-4xl">Verify My Vote</h1>
+                <p class="mt-2">Paste your vote receipt hash to confirm it exists in the secure vote ledger.</p>
+            </div>
+            <form id="verify-form" class="mt-8">
+                <label for="vote_hash">Vote Hash</label>
+                <input id="vote_hash" name="vote_hash" placeholder="Paste your SHA-256 receipt hash" required>
+                <div class="button-row">
+                    <button class="w-full" type="submit">Verify Hash</button>
+                </div>
+            </form>
+            <div id="verify-message" class="message"></div>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/verify.js"></script>
+</body>
+</html>

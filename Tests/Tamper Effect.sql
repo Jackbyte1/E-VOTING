@@ -1,0 +1,1 @@
+UPDATE audit_logs SET action = '_ADMIN_CREATED' WHERE id = 1;

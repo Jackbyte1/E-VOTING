@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vote Confirmed - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="app-shell">
+        <section class="content-panel mx-auto max-w-3xl">
+            <div class="text-center">
+                <div class="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-emerald-50 text-3xl">✅</div>
+                <h1 class="mt-5 text-3xl font-black md:text-4xl">Vote Confirmed</h1>
+                <p class="mt-2">Your vote was encrypted, stored, and linked to this verification hash.</p>
+            </div>
+            <div id="vote-hash" class="hash-box mt-8"></div>
+            <div class="button-row justify-center">
+                <a class="button-link" href="/pages/dashboard.html">Return to dashboard</a>
+            </div>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/confirmation.js"></script>
+</body>
+</html>

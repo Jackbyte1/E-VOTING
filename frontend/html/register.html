@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="auth-shell register-shell">
+        <section class="auth-layout">
+            <aside class="brand-panel">
+                <div class="inline-flex items-center gap-3 rounded-full border border-emerald-200/30 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur">
+                    <span class="grid h-8 w-8 place-items-center rounded-full bg-emerald-400/20">+</span>
+                    Join SecureVote
+                </div>
+                <div class="mt-12 max-w-md">
+                    <p class="text-sm font-bold uppercase tracking-normal text-emerald-200">Direct participation</p>
+                    <h1 class="mt-4 text-5xl font-black leading-tight tracking-tight md:text-6xl">
+                        Create your<br><span class="text-emerald-300">voter account</span>
+                    </h1>
+                    <p class="mt-5 text-base text-emerald-50/80">
+                        Register once, verify by OTP, and vote securely from any device during an active election.
+                    </p>
+                </div>
+                <div class="ballot-visual" aria-hidden="true">
+                    <div class="orb top">ID</div>
+                    <div class="ballot-card text-4xl">✓</div>
+                    <div class="ballot-box"></div>
+                    <div class="orb bottom">🔒</div>
+                </div>
+            </aside>
+
+            <section class="auth-panel">
+                <div class="mx-auto w-full max-w-md">
+                    <div class="mb-7 text-center">
+                        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-emerald-400/10 text-2xl text-emerald-300 shadow-inner">🛡</div>
+                        <h1 class="mt-5 text-3xl font-black tracking-tight text-emerald-50">Create account</h1>
+                        <p class="mt-2 text-sm text-emerald-100/60">Use your institutional details for voter eligibility.</p>
+                    </div>
+
+                    <form id="register-form" class="grid gap-1">
+                        <label for="name">Full name</label>
+                        <input id="name" name="name" required>
+
+                        <label for="email">Email address</label>
+                        <input id="email" name="email" type="email" required>
+
+                        <label for="reg_number">Registration Number</label>
+                        <input id="reg_number" name="reg_number" placeholder="REG-2026-001">
+
+                        <label for="course">Course</label>
+                        <input id="course" name="course" placeholder="BSc Software Engineering">
+
+                        <label for="password">Password</label>
+                        <div class="password-field">
+                            <input id="password" name="password" type="password" minlength="8" required>
+                            <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Show password">
+                                <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 3l18 18"></path>
+                                    <path d="M10.6 10.6A2 2 0 0 0 13.4 13.4"></path>
+                                    <path d="M9.9 5.3A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a17.4 17.4 0 0 1-3.1 4.1"></path>
+                                    <path d="M6.6 6.9C3.7 8.8 2 12 2 12s3.5 7 10 7a10.9 10.9 0 0 0 4.1-.8"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="button-row">
+                            <button class="flex-1" type="submit">Register</button>
+                            <a class="rounded-2xl px-4 py-3 text-sm font-extrabold text-emerald-300 hover:bg-white/10" href="/">Back to login</a>
+                        </div>
+                    </form>
+                    <div id="register-message" class="message"></div>
+                </div>
+            </section>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Secure Student E-Voting - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="auth-shell login-shell">
+        <section class="auth-layout">
+            <aside class="brand-panel">
+                <div class="inline-flex items-center gap-3 rounded-full border border-emerald-200/30 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur">
+                    <span class="grid h-8 w-8 place-items-center rounded-full bg-emerald-400/20">✓</span>
+                    SecureVote
+                </div>
+                <div class="mt-12 max-w-md">
+                    <p class="text-sm font-bold uppercase tracking-normal text-emerald-200">Your voice. Protected.</p>
+                    <h1 class="mt-4 text-5xl font-black leading-tight tracking-tight md:text-6xl">
+                        Secure Student<br><span class="text-emerald-300">E-Voting</span>
+                    </h1>
+                    <p class="mt-5 text-base text-emerald-50/80">
+                        Vote with confidence through OTP access, encrypted ballots, auditable logs, and instant verification.
+                    </p>
+                </div>
+                <div class="ballot-visual" aria-hidden="true">
+                    <div class="orb top">🔒</div>
+                    <div class="ballot-card text-4xl">✓</div>
+                    <div class="ballot-box"></div>
+                    <div class="orb bottom">✓</div>
+                </div>
+                <div class="mt-10 grid gap-3 text-sm text-emerald-50/85 sm:grid-cols-3">
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">Encrypted votes</div>
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">Verified receipts</div>
+                    <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">Tamper evidence</div>
+                </div>
+            </aside>
+
+            <section class="auth-panel">
+                <div class="mx-auto w-full max-w-md">
+                    <div class="mb-8 text-center">
+                        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-emerald-400/10 text-2xl text-emerald-300 shadow-inner">🔐</div>
+                        <h2 class="mt-5 text-3xl font-black tracking-tight text-emerald-50">Welcome back</h2>
+                        <p class="mt-2 text-sm text-emerald-100/60">Sign in to continue to SecureVote</p>
+                    </div>
+
+                    <form id="login-form">
+                        <label for="email">Email address</label>
+                        <input id="email" name="email" type="email" placeholder="you@university.edu" required>
+
+                        <label for="password">Password</label>
+                        <div class="password-field">
+                            <input id="password" name="password" type="password" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Show password">
+                                <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 3l18 18"></path>
+                                    <path d="M10.6 10.6A2 2 0 0 0 13.4 13.4"></path>
+                                    <path d="M9.9 5.3A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a17.4 17.4 0 0 1-3.1 4.1"></path>
+                                    <path d="M6.6 6.9C3.7 8.8 2 12 2 12s3.5 7 10 7a10.9 10.9 0 0 0 4.1-.8"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="mt-3 flex justify-end">
+                            <a class="text-sm font-bold text-emerald-300 hover:text-emerald-100" href="/pages/register.html">Create account</a>
+                        </div>
+
+                        <button class="mt-6 w-full" type="submit">Sign in →</button>
+                    </form>
+                    <div id="auth-message" class="message"></div>
+                </div>
+            </section>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

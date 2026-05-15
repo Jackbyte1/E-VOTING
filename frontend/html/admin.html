@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard - Secure Student E-Voting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar" data-navbar></nav>
+    <main class="app-shell admin-compact">
+        <section class="content-panel wide-panel">
+            <div class="topbar">
+                <div>
+                    <h1 class="text-3xl font-black md:text-5xl">Admin Dashboard</h1>
+                </div>
+            </div>
+
+            <div id="admin-message" class="message"></div>
+            <div id="admin-stats" class="stats-grid"></div>
+
+            <div class="tabs">
+                <button class="tab-button active" data-target="manage-panel">Manage</button>
+                <button class="tab-button" data-target="results-panel">Results</button>
+                <button class="tab-button" data-target="logs-panel">Audit Logs</button>
+                <button class="tab-button" data-target="users-panel">Voters</button>
+            </div>
+
+            <section id="manage-panel" class="tab-panel active">
+                <div id="setup-lock-notice"></div>
+                <div id="setup-forms" class="grid">
+                    <form id="create-election-form" class="glass-card p-5">
+                        <h2 class="text-2xl font-black">Create Election</h2>
+                        <label for="title">Title</label>
+                        <input id="title" name="title" required>
+                        <label for="start_date">Start Date</label>
+                        <input id="start_date" name="start_date" type="date" required>
+                        <label for="end_date">End Date</label>
+                        <input id="end_date" name="end_date" type="date" required>
+                        <button type="submit">Create Election</button>
+                    </form>
+
+                    <form id="add-candidate-form" class="glass-card p-5">
+                        <h2 class="text-2xl font-black">Add Candidate</h2>
+                        <label for="candidate-election">Election</label>
+                        <select id="candidate-election" class="election-select" name="election_id" required></select>
+                        <label for="candidate-name">Candidate Name</label>
+                        <input id="candidate-name" name="name" required>
+                        <label for="position">Position</label>
+                        <select id="position" name="position" required>
+                            <option value="President">President</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Academics">Academics</option>
+                        </select>
+                        <button type="submit">Add Candidate</button>
+                    </form>
+                </div>
+
+                <div class="section">
+                    <h2 class="text-2xl font-black">Elections</h2>
+                    <div id="elections-table" class="grid"></div>
+                </div>
+            </section>
+
+            <section id="results-panel" class="tab-panel">
+                <div class="section-title">
+                    <div>
+                        <h2>Results Dashboard</h2>
+                        <p>Visual tally, leading candidates, and election integrity status.</p>
+                    </div>
+                    <div class="results-tools">
+                        <select id="admin-results-election" aria-label="Choose closed election results"></select>
+                        <button type="button" onclick="exportReport()">Export Report</button>
+                    </div>
+                </div>
+                <div class="dashboard-two-col">
+                    <section class="dashboard-column">
+                        <div id="results-table" class="compact-progress-list"></div>
+                    </section>
+                    <aside class="dashboard-column">
+                        <div id="integrity-status" class="integrity-grid"></div>
+                        <div id="admin-breakdown"></div>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="logs-panel" class="tab-panel">
+                <h2 class="text-2xl font-black">Audit Logs</h2>
+                <div id="logs-table" class="audit-log-list"></div>
+            </section>
+
+            <section id="users-panel" class="tab-panel">
+                <h2 class="text-2xl font-black">Voters & Roles</h2>
+                <p>Manage voter/admin roles. Role changes are audit logged.</p>
+                <div id="users-table" class="grid"></div>
+            </section>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
