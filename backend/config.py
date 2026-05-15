@@ -51,6 +51,7 @@ SMTP_USE_SSL = os.getenv("SMTP_USE_SSL", "false").lower() in {"1", "true", "yes"
 SMTP_TIMEOUT_SECONDS = int(os.getenv("SMTP_TIMEOUT_SECONDS", "20"))
 EMAIL_FROM = os.getenv("EMAIL_FROM", SMTP_USERNAME or "")
 EMAIL_FROM_NAME = os.getenv("EMAIL_FROM_NAME", "SecureVote")
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 
 if IS_PRODUCTION:
     if SECRET_KEY == "dev-session-secret-change-me":
