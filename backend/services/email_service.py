@@ -83,8 +83,8 @@ def send_otp_email(recipient_email: str, recipient_name: str | None, otp_code: s
                     server.starttls()
                 _send(server, message)
     except Exception as exc:
-        raise EmailDeliveryError("Could not send OTP email.") from exc
-
+       print("SMTP ERROR:", repr(exc))
+       raise
 
 def _send(server, message: EmailMessage) -> None:
     if SMTP_USERNAME and SMTP_PASSWORD:
