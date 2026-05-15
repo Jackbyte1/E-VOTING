@@ -40,7 +40,7 @@ def verify_audit_chain() -> dict:
 
     for log in logs:
         expected = sha256_hash(
-            f"{log['action']}|{log['user_id']}|{log['timestamp']}|{previous_hash}|{log['merkle_root']}"
+            f"{log['action']}|{log['user_id']}|{log['timestamp']}|{previous_hash}|{log['merkle_root'] or 'NO_MERKLE'}"
         )
 
         if log["previous_hash"] != previous_hash or log["current_hash"] != expected:
@@ -63,7 +63,7 @@ def verify_audit_chain() -> dict:
 
 def verify_system_integrity(election_id: int | None = None) -> dict:
     # TEMPORARY repair for old development/test logs
-    #rebuild_audit_chain()
+    rebuild_audit_chain()
 
     audit = verify_audit_chain()
 

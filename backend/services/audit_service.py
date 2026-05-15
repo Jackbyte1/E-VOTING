@@ -6,14 +6,16 @@ from backend.utils.db import get_connection
 GENESIS_HASH = "0" * 64
 
 
+def normalize_merkle_root(merkle_root):
+    return merkle_root if merkle_root is not None else "NO_MERKLE"
+
+
 def record_audit(action: str, user_id=None, merkle_root=None) -> str:
-    """Append a tamper-evident audit log using simple hash chaining."""
+    """Append a tamper-evident audit log using stable hash chaining."""
 
     timestamp = datetime.now(timezone.utc).isoformat()
 
-    # Normalize optional fields for stable hashing
-    normalized_user_id = "" if user_id is None else str(user_id)
-    normalized_merkle_root = "" if merkle_root is None else str(merkle_root)
+    normalized_merkle = normalize_merkle_root(merkle_root)
 
     with get_connection() as conn:
         last_log = conn.execute(
@@ -21,19 +23,26 @@ def record_audit(action: str, user_id=None, merkle_root=None) -> str:
         ).fetchone()
 
         previous_hash = (
-            last_log["current_hash"]
-            if last_log
-            else GENESIS_HASH
+            last_log["current_hash"] if last_log else GENESIS_HASH
         )
 
-        current_hash = sha256_hash(
-            f"{action}|{normalized_user_id}|{timestamp}|{previous_hash}|{normalized_merkle_root}"
+        payload = (
+            f"{action}|{user_id}|{timestamp}|"
+            f"{previous_hash}|{normalized_merkle}"
         )
+
+        current_hash = sha256_hash(payload)
 
         conn.execute(
             """
-            INSERT INTO audit_logs
-            (action, user_id, timestamp, previous_hash, current_hash, merkle_root)
+            INSERT INTO audit_logs (
+                action,
+                user_id,
+                timestamp,
+                previous_hash,
+                current_hash,
+                merkle_root
+            )
             VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
@@ -42,7 +51,7 @@ def record_audit(action: str, user_id=None, merkle_root=None) -> str:
                 timestamp,
                 previous_hash,
                 current_hash,
-                merkle_root,
+                normalized_merkle,
             ),
         )
 
