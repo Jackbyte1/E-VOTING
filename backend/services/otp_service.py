@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta, timezone
 
 from backend.config import OTP_EXPIRY_MINUTES
+from backend.services.email_service import send_otp_email
 from backend.services.security_service import generate_otp
 from backend.utils.db import get_connection
 
 
-def create_otp_session(user_id: int) -> str:
+def create_otp_session(user_id: int, recipient_email: str, recipient_name: str | None = None) -> str:
     otp_code = generate_otp()
     expiry = datetime.now(timezone.utc) + timedelta(minutes=OTP_EXPIRY_MINUTES)
     with get_connection() as conn:
@@ -16,7 +17,7 @@ def create_otp_session(user_id: int) -> str:
             """,
             (user_id, otp_code, expiry.isoformat()),
         )
-    print(f"[SIMULATED EMAIL] User ID {user_id} OTP: {otp_code}")
+    send_otp_email(recipient_email, recipient_name, otp_code, OTP_EXPIRY_MINUTES)
     return otp_code
 
 

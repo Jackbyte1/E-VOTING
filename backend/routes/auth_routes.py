@@ -5,6 +5,7 @@ from flask import Blueprint, request, session
 from backend.models.user_model import create_user, find_user_by_email, find_user_by_id
 from backend.config import EXPOSE_DEV_OTP
 from backend.services.audit_service import record_audit
+from backend.services.email_service import EmailDeliveryError
 from backend.services.otp_service import create_otp_session, verify_otp
 from backend.services.security_service import hash_password, verify_password
 from backend.utils.db import is_integrity_error
@@ -78,7 +79,12 @@ def login():
     session.clear()
     session["pending_user_id"] = user["id"]
     session["pending_role"] = user["role"]
-    otp_code = create_otp_session(user["id"])
+    try:
+        otp_code = create_otp_session(user["id"], user["email"], user["name"])
+    except EmailDeliveryError:
+        session.clear()
+        record_audit("LOGIN_OTP_EMAIL_FAILED", user["id"])
+        return error("Could not send OTP email. Please contact the election administrator.", 503)
     record_audit("LOGIN_PASSWORD_ACCEPTED_OTP_SENT", user["id"])
 
     response_data = {
