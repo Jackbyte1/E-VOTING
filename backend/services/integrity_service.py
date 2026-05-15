@@ -87,7 +87,7 @@ def verify_audit_chain() -> dict:
 
 def verify_system_integrity(election_id: int | None = None) -> dict:
     #This is a temporary requirement
-    rebuild_audit_chain()
+    #rebuild_audit_chain()
 
     audit = verify_audit_chain()
 
